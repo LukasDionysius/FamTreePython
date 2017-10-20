@@ -1,1 +1,13 @@
 Hello Lukas
+
+Methods I am working on in Lukas.java:
+VerifyRelation(String name1, String relation, String name2)
+addPersonToHashMap(String name) 
+
+Methods I am working on in Person.java:
+conceived(String spouse, String child
+getPersonSpouse() 
+getChildren(String spouse)
+getHalfSiblings()
+firstDescendants()
+getAllDescendants()
