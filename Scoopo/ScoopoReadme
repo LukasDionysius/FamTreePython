@@ -1,1 +1,14 @@
 Hello Ryan
+
+Methods I am working on in Lukas.java
+removeDuplicates()
+relatedTo()
+
+Methods I am working on in Person.java
+getParentA()
+getParentB()
+married()
+getKids()
+getCousins()
+getAllKids()
+getAllRelatives()
