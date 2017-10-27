@@ -8,58 +8,58 @@ class Person:
     def Person(self, name):
         self.name = name
 
-        def setParentA (self, parentA):
-            self.parentA = parentA
-            validAncestor = False
+    def setParentA (self, parentA):
+    	self.parentA = parentA
+     	validAncestor = False
 
-            def setParentB (self, parentB):
-                self.parentB = parentB
-                validAncestor = False
+    def setParentB (self, parentB):
+		self.parentB = parentB
+    	validAncestor = False
 
-#getParentA() method
-def getParentA():
-    return parentA
+	#getParentA() method
+	def getParentA():
+		return parentA
 
-#getParentB() method
-def getParentB():
-    return parentB
+	#getParentB() method
+	def getParentB():
+		return parentB
 
-#married() method
-def married(spouseName):
-    if spouseName not in people:
-        people[spouseName, list()]
+	#married() method
+	def married(spouseName):
+		if spouseName not in people:
+			people[spouseName, list()]
 
-        def conceived(spouse, child):
-            if spouse in people.keys() != true:
-        familyMember[spouse] = new ArrayList<>() #people.put(spouse, new ArrayList<>());
+	def conceived(spouse, child):
+		if spouse in people.keys() != true:
+		familyMember[spouse] = new ArrayList<>() #people.put(spouse, new ArrayList<>());
 
-        Lukas.addPersonToHashMap(child)
-        people.get(spouse).add(child)
+		Lukas.addPersonToHashMap(child)
+		people.get(spouse).add(child)
 
-        def getPersonSpouse():
-            return people.keys()
+	def getPersonSpouse():
+    	return people.keys()
 
-            def getChildren(spouse):
-                return people.get(spouse)
+	def getChildren(spouse):
+		return people.get(spouse)
 
-#getAllKids() method
-def getAllKids():
-    allKids = []
-    result = []
-    set = set()
+	#getAllKids() method
+	def getAllKids():
+		allKids = []
+		result = []
+		set = set()
 
-    for kids in people.values():
-        allKids.extend(kids)
+		for kids in people.values():
+			allKids.extend(kids)
 
-        for kid in allKids:
-            if kid not in set:
-                result.add(kid)
-                set.add(kid)
-                return result
+			for kid in allKids:
+				if kid not in set:
+					result.add(kid)
+					set.add(kid)
+						return result
 
-#getKids() method
-def getKids(parent):
-    return people.get(parent)
+	#getKids() method
+	def getKids(parent):
+		return people.get(parent)
 
     def getHalfSiblings():
         halfSiblings = []
@@ -77,23 +77,23 @@ def getKids(parent):
 
                 return result
 
-#getCousins() method
-def getCousins():
-    cousins = []
-    cousinsNoDup = []
-    ancestors = []
-    allRelatives = []
+	#getCousins() method
+	def getCousins():
+		cousins = []
+		cousinsNoDup = []
+		ancestors = []
+		allRelatives = []
 
-    ancestors.extend(Lukas.familyMember.get(name).getAllAncestors())
-    allRelatives.extend(Lukas.familyMember.get(name).getAllRelatives())
+		ancestors.extend(Lukas.familyMember.get(name).getAllAncestors())
+		allRelatives.extend(Lukas.familyMember.get(name).getAllRelatives())
 
-    cousins.extend(allRelatives)
-    cousins = [x for x in cousins if x not in ancestors]
+		cousins.extend(allRelatives)
+		cousins = [x for x in cousins if x not in ancestors]
 
-    cousins.remove(name)
+		cousins.remove(name)
 
-    cousinsNoDup = removeDuplicates(cousins)
-    return cousinsNoDup
+		cousinsNoDup = removeDuplicates(cousins)
+		return cousinsNoDup
 
     def firstDescendants():
         desc = []
@@ -110,9 +110,9 @@ def getCousins():
 
                 return desc
 
-                def getUnrelated(self):
+     def getUnrelated(self):
                     unrelated = set([])
-# unrelated.addAll(Lukas.familyMember.keySet());
+	# unrelated.addAll(Lukas.familyMember.keySet());
     # unrelated.removeAll(Lukas.familyMember.get(name).getAllRelatives());
 
     return unrelated;
