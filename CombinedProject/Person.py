@@ -13,7 +13,7 @@ class Person:
      	validAncestor = False
 
     def setParentB (self, parentB):
-		self.parentB = parentB
+	self.parentB = parentB
     	validAncestor = False
 
 	#getParentA() method
