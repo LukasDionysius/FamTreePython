@@ -1,3 +1,4 @@
+import io
 class Person:
     name = ""
     parentA = None
@@ -203,20 +204,23 @@ class Lukas:
     familyMember = {}
 
 
-    def readData(self, line):
+    def readData(self, ln):
         name1 = ""
         name2 = ""
         name3 = ""
         relationship = ""
         result = ""
 
-        queryData = line.split(" ")
-        queryChar = line.charAt(0)
+        queryData = ln.split(" ")
+        queryChar = ln[0]
 
         if queryChar == 'E' or queryChar == 'e':
             name1 = queryData[1]
             name2 = queryData[2]
             name3 = queryData[3]
+            print:name1
+            print:name2
+            print:name3
 
             self.addPersonToHashMap(name1)
             self.addPersonToHashMap(name2)
@@ -242,15 +246,15 @@ class Lukas:
             name1 = queryData[1]
             relationship = queryData[2]
             name2 = queryData[3]
-            result = "\n" + line + "\n" + self.verifyRelation(name1, relationship, name2) + "\n"
+            result = "\n" + ln + "\n" + self.verifyRelation(name1, relationship, name2) + "\n"
             print: result
         elif queryChar == 'W' or queryChar == 'w':
             relationship = queryData[1]
             name1 = queryData[2]
-            result = "\n" + line + "\n" + self.relatedTo(relationship, name1)
+            result = "\n" + ln + "\n" + self.relatedTo(relationship, name1)
             print: result
         else:
-            result = "\n" + line + "\nis not a valid query\n"
+            result = "\n" + ln + "\nis not a valid query\n"
 
         return result
 
@@ -268,19 +272,23 @@ class Lukas:
     input = open('input.txt', 'r')
     output = open('output.txt', 'w')
 
-    while line != "":
+    while line != None:
         line = input.readline()
         line = line.lower()
         output.write(line)
+        print(line)
+        print("hello")
+
+        readData("", line)
         output.write(readData(line))
     output.close()
 
 #    except
 
 
-    def addPersonToHashMap(self, name):
-        if name not in self.familyMember:
-            self.familyMember[name] = Person(name)
+    def addPersonToHashMap(name):
+        if name not in Lukas.familyMember:
+            Lukas.familyMember[name] = Person(name)
 
 
     def verifyRelation(self, name1, relation, name2):
