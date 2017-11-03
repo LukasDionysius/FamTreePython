@@ -1,13 +1,13 @@
 import io
-class Person:
-    name = ""
-    parentA = None
-    parentB = None
-    validAncestor = True
-    people = {}
-
-    def Person(n):
-        name = n
+import sys
+class Person():
+    def __init__ (self, n):
+        self.name = n
+        self.parentA = None
+        self.parentB = None
+        self.validAncestor = True
+        self.children = []
+        self.people = {}
 
     def setParentA(self, parentA):
         self.parentA = parentA
@@ -34,8 +34,8 @@ class Person:
         if spouse not in self.people.keys():
             self.people[spouse] = []  # people.put(spouse, new ArrayList<>());
 
-        Lukas.addPersonToHashMap(child)
-        self.people.get(spouse).add(child)
+        # Lukas.addPersonToHashMap(child) Can't call Lukas directly, must call instance. should be back in Lukas
+        self.people.get(spouse).append(child)
 
     def getPersonSpouse(self):
         return self.people.keys()
@@ -199,7 +199,7 @@ class Person:
                 set.add(item)
         return result
 
-class Lukas:
+class Lukas():
 
     familyMember = {}
 
@@ -234,6 +234,7 @@ class Lukas:
 
             self.familyMember.get(name1).conceived(name2, name3)
             self.familyMember.get(name2).conceived(name1, name3)
+            self.addPersonToHashMap(self.familyMember.get(name3))
 
         if queryData[2] != "":
             name1 = queryData[1]
@@ -267,26 +268,27 @@ class Lukas:
  #   try:
 #    bw = BufferedWriter(new OutputStreamWriter(System.out))
 #    input = BufferedReader(new InputStreamReader(System.in))
-    line = ""
+    def main (self):
+        line = ""
 
-    input = open('input.txt', 'r')
-    output = open('output.txt', 'w')
+        input = sys.stdin
+        output = sys.stdout
 
-    while line != None:
-        line = input.readline()
-        line = line.lower()
-        output.write(line)
-        print(line)
-        print("hello")
 
-        readData("", line)
-        output.write(readData(line))
-    output.close()
+        for line in input:
+            line = line.lower()
+            output.write(line)
+            print(line)
+            print("hello")
+
+            self.readData(line)
+            output.write(self.readData(line))
+        output.close()
 
 #    except
 
 
-    def addPersonToHashMap(name):
+    def addPersonToHashMap(self, name):
         if name not in Lukas.familyMember:
             Lukas.familyMember[name] = Person(name)
 
@@ -411,7 +413,7 @@ class Lukas:
 
             # removeDuplicates() methods
 
-    def removeDuplicates(list):
+    def removeDuplicates(self, list):
             result = []
             set = set()
 
@@ -421,3 +423,8 @@ class Lukas:
                     set.add(item)
 
             return result
+
+
+
+L = Lukas()
+L.main()
