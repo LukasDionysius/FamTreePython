@@ -7,7 +7,7 @@ class Person(object):
         self.parents = []
         self.children = []
         self.spouses = []
-        self.ae = True
+        self.firstDescendants = True
 
 
     # Setters and Getters---------------------------
@@ -22,7 +22,7 @@ class Person(object):
             self.parents.append(parent1)
         if parent2 not in self.parents:
             self.parents.append(parent2)
-        self.ae = False
+        self.firstDescendants = False
 
     def getchildren(self):
         return self.children
@@ -38,5 +38,5 @@ class Person(object):
         if spouse not in self.spouses:
             self.spouses.append(spouse)
 
-    def isae(self):
-        return self.ae
+    def isFD(self):
+        return self.firstDescendants
