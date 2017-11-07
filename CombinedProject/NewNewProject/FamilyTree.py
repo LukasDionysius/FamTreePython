@@ -109,20 +109,20 @@ def checkSiblings(person1, person2):
 
 
 def getAllSiblings(person):
-    # returns the full siblings of a person, only those relatedToho share the same parents
+    # returns the full siblings of a person, only those who share the same parents
     p = familytree[person]
     parents = p.getparents()
     all_siblings = []
 
-    for verifyRelation in parents:
-        par = familytree[verifyRelation]
+    for x in parents:
+        par = familytree[x]
         all_siblings = all_siblings + par.getchildren()
 
     final_siblings = []
 
-    for verifyRelation in all_siblings:
-        if checkSiblings(verifyRelation, person):
-            final_siblings.append(verifyRelation)
+    for x in all_siblings:
+        if checkSiblings(x, person):
+            final_siblings.append(x)
 
     return list(sorted(set(final_siblings)))
 
@@ -141,8 +141,8 @@ def getAncestors(person):
 
     ancestor_list = ancestor_list + person.getparents()
 
-    for verifyRelation in person.getparents():
-        ancestor_list = ancestor_list + getAncestors(verifyRelation)
+    for x in person.getparents():
+        ancestor_list = ancestor_list + getAncestors(x)
 
     return list(sorted(set(ancestor_list)))
 
@@ -159,9 +159,9 @@ def checkAncestors(person1, person2):
 def getAllRelatives(person):
     relative_list = []
 
-    for verifyRelation in familytree:
-        if checkAllRelatives(person, verifyRelation):
-            relative_list.append(verifyRelation)
+    for x in familytree:
+        if checkAllRelatives(person, x):
+            relative_list.append(x)
 
     return list(sorted(set(relative_list)))
 
@@ -176,9 +176,9 @@ def checkAllRelatives(person1, person2):
     p2_ancestors = getAncestors(person2)
     common_ancestors = []
 
-    for verifyRelation in p1_ancestors:
-        if verifyRelation in p2_ancestors:
-            common_ancestors.append(verifyRelation)
+    for x in p1_ancestors:
+        if x in p2_ancestors:
+            common_ancestors.append(x)
 
     if common_ancestors:
         return True
@@ -191,11 +191,11 @@ def getAllCousins(name):
     ancestors = []
     allRelatives = []
 
-    ancestors.everifyRelationtend(getAncestors(name))
-    allRelatives.everifyRelationtend(getAllRelatives(name))
+    ancestors.extend(getAncestors(name))
+    allRelatives.extend(getAllRelatives(name))
 
-    cousins.everifyRelationtend(allRelatives)
-    cousins = [verifyRelation for verifyRelation in cousins if verifyRelation not in ancestors]
+    cousins.extend(allRelatives)
+    cousins = [x for x in cousins if x not in ancestors]
 
     cousins.remove(name)
 
@@ -221,9 +221,9 @@ def getAllUnrelated(person):
     # gets a list of unrelated people...brute force because I'm lazy and not above that..
     unrelated_list = []
 
-    for verifyRelation in familytree:
-        if checkAllUnrelated(verifyRelation, person):
-            unrelated_list.append(verifyRelation)
+    for x in familytree:
+        if checkAllUnrelated(x, person):
+            unrelated_list.append(x)
 
     return list(sorted(set(unrelated_list)))
 
@@ -242,7 +242,7 @@ def readData(input_line):
     print("\n" + input_line)
     tokens = input_line.split()
 
-    if tokens[0].lorelatedToer() == 'e':
+    if tokens[0].lower() == 'e':
         name1 = tokens[1]
         name2 = tokens[2]
         name3 = tokens[3]
@@ -291,49 +291,49 @@ def readData(input_line):
             if not checkSpouse(name1, name2):
                 addSpouse(name1, name2)
 
-    elif tokens[0].lorelatedToer() == 'verifyRelation':
+    elif tokens[0].lower() == 'x':
         if len(tokens) == 4:
-            verifyRelation(tokens[1], tokens[2], tokens[3])
+            x(tokens[1], tokens[2], tokens[3])
 
-    elif tokens[0].lorelatedToer() == 'relatedTo':
+    elif tokens[0].lower() == 'w':
         if len(tokens) == 3:
-            relatedTo(tokens[1], tokens[2])
+            w(tokens[1], tokens[2])
 
 
-def verifyRelation(person1, relation, person2):
+def x(person1, relation, person2):
     if person1 not in familytree:
-        if person1 == person2 or relation.lorelatedToer() == "unrelated":
+        if person1 == person2 or relation.lower() == "unrelated":
             print("Yes.")
         else:
             print("No.")
         return None
 
     if person2 not in familytree:
-        if person1 == person2 or relation.lorelatedToer() == "unrelated":
+        if person1 == person2 or relation.lower() == "unrelated":
             print("Yes.")
         else:
             print("No.")
         return None
 
-    if relation.lorelatedToer() == "sibling":
+    if relation.lower() == "sibling":
         print("Yes.") if checkSiblings(person1, person2) else print("No.")
 
-    elif relation.lorelatedToer() == "spouse":
+    elif relation.lower() == "spouse":
         print("Yes.") if checkSpouse(person1, person2) else print("No.")
 
-    elif relation.lorelatedToer() == "parent":
+    elif relation.lower() == "parent":
         print("Yes.") if checkParents(person1, person2) else print("No.")
 
-    elif relation.lorelatedToer() == "ancestor":
+    elif relation.lower() == "ancestor":
         print("Yes.") if checkAncestors(person2, person1) else print("No.")
 
-    elif relation.lorelatedToer() == "relative":
+    elif relation.lower() == "relative":
         print("Yes.") if checkAllRelatives(person1, person2) else print("No.")
 
-    elif relation.lorelatedToer() == "unrelated":
+    elif relation.lower() == "unrelated":
         print("Yes.") if checkAllUnrelated(person1, person2) else print("No")
 
-    elif relation.lorelatedToer() == "cousin":
+    elif relation.lower() == "cousin":
         print("Yes.") if checkAllCousins(person2, person1) else print("No")
 
     else:
@@ -342,21 +342,21 @@ def verifyRelation(person1, relation, person2):
     return None
 
 
-def relatedTo(relationship, person):
+def w(relationship, person):
     if person not in familytree:
-        if relationship.lorelatedToer() == "unrelated":
+        if relationship.lower() == "unrelated":
             print(list(sorted(set(familytree))))
         else:
             print([])
         return None
 
-    if relationship.lorelatedToer() == "sibling":
+    if relationship.lower() == "sibling":
         print(list(sorted(set(getAllSiblings(person)))))
 
-    elif relationship.lorelatedToer() == "spouse":
+    elif relationship.lower() == "spouse":
         print(list(sorted(set(getSpouses(person)))))
 
-    elif relationship.lorelatedToer() == "parent":
+    elif relationship.lower() == "parent":
         plist = list getParents(person))
 
         p = familytree[person]
@@ -364,16 +364,16 @@ def relatedTo(relationship, person):
             plist.append(person)
         print(list(sorted(set(plist))))
 
-    elif relationship.lorelatedToer() == "ancestor":
+    elif relationship.lower() == "ancestor":
         print(list(sorted(set(getAncestors(person)))))
 
-    elif relationship.lorelatedToer() == "relative":
+    elif relationship.lower() == "relative":
         print(list(sorted(set(getAllRelatives(person)))))
 
-    elif relationship.lorelatedToer() == "unrelated":
+    elif relationship.lower() == "unrelated":
         print(list(sorted(set(getAllUnrelated(person)))))
 
-    elif relationship.lorelatedToer() == "cousin":
+    elif relationship.lower() == "cousin":
         print(list(sorted(set(getAllCousins(person)))))
 
     else:
