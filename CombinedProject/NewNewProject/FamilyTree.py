@@ -5,54 +5,35 @@ __author__ = 'Lukas'
 
 familytree = {}
 
-
 def main():
     for line in sys.stdin:
         readData(line)
 
-
 def setName(name):
-    # sets a person's name
-
     familytree[name] = Person(name)
 
-
 def getParents(name):
-    # gets both parents of a specific person
     if name not in familytree:
         return []
-
     person = familytree[name]
     parentlist = person.getparents()
-
     return parentlist
 
-
 def checkParents(parent, person):
-    # checks to see if parent is a parent of person
-
     p = familytree[person]
     parent_list = p.getparents()
-
     if p.isFD() and parent == person:
         return True
-
     if parent in parent_list:
         return True
     else:
         return False
 
-
 def getSpouses(name):
-    # gets all the spouses of a person
-
     p = familytree[name]
     return p.getspouses()
 
-
 def checkSpouse(spouse, person):
-    # checks to see if spouse is a spouse of a person
-
     p = familytree[person]
     spouse_list = p.getspouses()
     if spouse in spouse_list:
@@ -60,17 +41,11 @@ def checkSpouse(spouse, person):
     else:
         return False
 
-
 def getChildren(name):
-    # gets all the children of a person
-
     p = familytree[name]
     return p.getchildren()
 
-
 def checkChildren(child, person):
-    # checks to see if child is a child of person
-
     p = familytree[person]
     childrenlist = p.getchildren()
     if child in childrenlist:
@@ -78,27 +53,17 @@ def checkChildren(child, person):
     else:
         return False
 
-
 def addSpouse(spouse1, spouse2):
-    # adds spouse 1 to spouse2's spouse list, and vice versa
-
     s1 = familytree[spouse1]
     s2 = familytree[spouse2]
-
     s1.addspouse(spouse2)
     s2.addspouse(spouse1)
 
-
 def addParents(person, parent1, parent2):
-    # adds parents to a persons parent list
-
     p = familytree[person]
-
     p.setparents(parent1, parent2)
 
-
 def checkSiblings(person1, person2):
-    # checks to see if person 1 and person 2 are full siblings (share the same parents)
     if getParents(person1) != [] and getParents(person1) != []:
         if set(getParents(person1)) == set(getParents(person2)):
             return True
@@ -107,9 +72,7 @@ def checkSiblings(person1, person2):
     else:
         return False
 
-
 def getAllSiblings(person):
-    # returns the full siblings of a person, only those who share the same parents
     p = familytree[person]
     parents = p.getparents()
     all_siblings = []
@@ -126,10 +89,7 @@ def getAllSiblings(person):
 
     return list(sorted(set(final_siblings)))
 
-
 def getAncestors(person):
-    # returns all the ancestors of a person recursively
-
     ancestor_list = []
     person = familytree[person]
 
@@ -146,10 +106,7 @@ def getAncestors(person):
 
     return list(sorted(set(ancestor_list)))
 
-
 def checkAncestors(person1, person2):
-    # checks to see if person 2 is person1's ancestor
-
     if person2 in getAncestors(person1):
         return True
     else:
@@ -167,8 +124,6 @@ def getAllRelatives(person):
 
 
 def checkAllRelatives(person1, person2):
-    # checks to see if to people have common ancestors
-
     if person1 not in familytree:
         return False
 
@@ -185,7 +140,6 @@ def checkAllRelatives(person1, person2):
     else:
         return False
 
-
 def getAllCousins(name):
     cousins = []
     ancestors = []
@@ -201,10 +155,7 @@ def getAllCousins(name):
 
     return cousins
 
-
 def checkAllCousins(person1, person2):
-    # checks to see if person 2 is person1's ancestor
-
     if person1 not in familytree:
         return False
 
@@ -216,9 +167,7 @@ def checkAllCousins(person1, person2):
     else:
         return False
 
-
 def getAllUnrelated(person):
-    # gets a list of unrelated people...brute force because I'm lazy and not above that..
     unrelated_list = []
 
     for x in familytree:
@@ -227,10 +176,7 @@ def getAllUnrelated(person):
 
     return list(sorted(set(unrelated_list)))
 
-
 def checkAllUnrelated(person1, person2):
-    # check to see if person1 is unrelated to person2
-
     if person1 not in getAllRelatives(person2):
         return True
     else:
@@ -247,17 +193,14 @@ def readData(input_line):
         name2 = tokens[2]
         name3 = tokens[3]
 
-        # make sure the parents are actually people, if not add them to the hash
         if name1 not in familytree:
             setName(name1)
         if name2 not in familytree:
             setName(name2)
 
-        # if there is no child passed, add the spouses if they arent already
         if name3 is None and not (checkSpouse(name1, name2)):
             addSpouse(name1, name2)
 
-        # if there is a child, and the parents are spouses already, just add the child
         elif checkSpouse(name1, name2):
 
             if name3 not in familytree:
@@ -272,7 +215,6 @@ def readData(input_line):
 
             c.setparents(name1, name2)
 
-        # if the parents aren't married, and they don't have the child listed, create all connections
         else:
             if name3 not in familytree:
                 setName(name3)
@@ -298,7 +240,6 @@ def readData(input_line):
     elif tokens[0].lower() == 'w':
         if len(tokens) == 3:
             w(tokens[1], tokens[2])
-
 
 def x(person1, relation, person2):
     if person1 not in familytree:
@@ -340,7 +281,6 @@ def x(person1, relation, person2):
         print("This is not a valid relationship, BRO")
 
     return None
-
 
 def w(relationship, person):
     if person not in familytree:
