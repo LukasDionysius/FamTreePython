@@ -13,21 +13,13 @@ def set_person(name):
 
     familytree[name] = Person(name)
 
-def check_person(name):
-    # checks to see if a person is in the list of people
-
-    if name in familytree:
-        return True
-    else:
-        return False
-
 def get_parents(name):
     # gets both parents of a specific person
-    if not check_person(name):
+    if name not in familytree:
         return []
 
-    p = familytree[name]
-    parentlist = p.getparents()
+    person = familytree[name]
+    parentlist = person.getparents()
 
     return parentlist
 
@@ -77,20 +69,6 @@ def check_children(child, person):
     else:
         return False
 
-def add_child(parent1, parent2, child):
-    # adds a child to the childrenlists of parent1 and parent2
-    # also sets the parents of the child to parent 1 and parent2
-    # used if parent1 and parent2 are already spouses
-
-    p1 = familytree[parent1]
-    p2 = familytree[parent2]
-    c = familytree[child]
-
-    p1.addchild(child)
-    p2.addchild(child)
-
-    c.setparents(parent1, parent2)
-
 def add_spouse(spouse1, spouse2):
     # adds spouse 1 to spouse2's spouse list, and vice versa
 
@@ -106,17 +84,6 @@ def add_parents(person, parent1, parent2):
     p = familytree[person]
 
     p.setparents(parent1, parent2)
-
-def add_all_connections(parent1, parent2, child):
-    # adds all the connections of a new family
-    # add parents to the child
-    # adds child to each parent
-    # adds parents to each other's spouse lists
-
-    add_parents(child, parent1, parent2)
-    add_child(parent1, parent2, child)
-    if not check_spouse(parent1, parent2):
-        add_spouse(parent1, parent2)
 
 def check_sibs(person1, person2):
     # checks to see if person 1 and person 2 are full siblings (share the same parents)
@@ -184,7 +151,8 @@ def get_relatives(person):
 
 def check_relatives(person1, person2):
     # checks to see if to people have common ancestors
-    if not check_person(person1):
+
+    if person1 not in familytree:
         return False
 
     p1_ancestors = get_ancestors(person1)
@@ -200,44 +168,28 @@ def check_relatives(person1, person2):
     else:
         return False
 
-def get_cousins(person, num_cousin, num_removed):
-    personlist1 = [person]
-    personlist2 = []
+def get_cousins(name):
+    cousins = []
+    ancestors = []
+    allRelatives = []
 
-    # gets the shared grandparents
-    for x in range(0, num_cousin):
+    ancestors.extend(get_ancestors(name))
+    allRelatives.extend(get_relatives(name))
 
-        personlist2.clear()
-        for x in personlist1:
-            personlist2 = personlist2 + get_parents(x)
+    cousins.extend(allRelatives)
+    cousins = [x for x in cousins if x not in ancestors]
 
-        personlist1 = list(set(personlist2))
+    cousins.remove(name)
 
-
-    # gets the siblings of grandparents
-    personlist2.clear()
-    for x in personlist1:
-        personlist2 = personlist2 + get_full_sibs(x)
-
-
-    personlist2 = set(personlist2) - set(personlist1)
-
-    personlist1 = list(set(personlist2))
-
-    # this gets the children on the proper cousin level
-    for x in range(0, (num_cousin + num_removed)):
-
-        personlist2.clear()
-        for x in personlist1:
-            personlist2 = list(personlist2) + get_children(x)
-
-        personlist1 = list(set(personlist2))
-
-    return list(sorted(set(personlist1)))
+    return cousins
 
 def check_cousins(person1,  num_cousin, num_removal, person2):
     # checks to see if person 2 is person1's ancestor
-    if not check_person(person1) or not check_person(person2):
+
+    if person1 not in familytree:
+        return False
+
+    if person2 not in familytree:
         return False
 
     if person2 in get_cousins(person1, num_cousin, num_removal):
@@ -274,9 +226,9 @@ def sort_case(input_line):
         name3 = tokens[3]
 
         # make sure the parents are actually people, if not add them to the hash
-        if not check_person(name1):
+        if name1 not in familytree:
             set_person(name1)
-        if not check_person(name2):
+        if name2 not in familytree:
             set_person(name2)
 
         # if there is no child passed, add the spouses if they arent already
@@ -285,17 +237,37 @@ def sort_case(input_line):
 
         # if there is a child, and the parents are spouses already, just add the child
         elif check_spouse(name1, name2):
-            if not check_person(name3):
-                set_person(name3)
 
-            add_child(name1, name2, name3)
+            if name3 not in familytree:
+               set_person(name3)
+
+            p1 = familytree[name1]
+            p2 = familytree[name2]
+            c = familytree[name3]
+
+            p1.addchild(name3)
+            p2.addchild(name3)
+
+            c.setparents(name1, name2)
 
         # if the parents aren't married, and they don't have the child listed, create all connections
         else:
-            if not check_person(name3):
-                set_person(name3)
+            if name3 not in familytree:
+               set_person(name3)
 
-            add_all_connections(name1, name2, name3)
+            add_parents(name3, name1, name2)
+    
+            p1 = familytree[name1]
+            p2 = familytree[name2]
+            c = familytree[name3]
+
+            p1.addchild(name3)
+            p2.addchild(name3)
+
+            c.setparents(name1, name2)
+
+            if not check_spouse(name1, name2):
+               add_spouse(name1, name2)
 
     elif tokens[0].lower() == 'x':
         if len(tokens) == 4:
@@ -306,14 +278,15 @@ def sort_case(input_line):
             w(tokens[1], tokens[2])
 
 def x(person1, relation, person2):
-        if not check_person(person1):
+
+        if person1 not in familytree:
             if person1 == person2 or relation.lower() == "unrelated":
                 print("Yes.")
             else:
                 print("No.")
             return None
 
-        if not check_person(person2):
+        if person2 not in familytree:
             if person1 == person2 or relation.lower() == "unrelated":
                 print("Yes.")
             else:
@@ -347,7 +320,7 @@ def x(person1, relation, person2):
         return None
 
 def w(relationship, person):
-    if not check_person(person):
+    if person not in familytree:
         if relationship.lower() == "unrelated":
             print(list(sorted(set(familytree))))
         else:
