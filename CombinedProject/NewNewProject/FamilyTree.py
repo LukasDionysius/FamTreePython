@@ -202,7 +202,7 @@ def getAllCousins(name):
     return cousins
 
 
-def checkAllCousins(person1, num_cousin, num_removal, person2):
+def checkAllCousins(person1, person2):
     # checks to see if person 2 is person1's ancestor
 
     if person1 not in familytree:
@@ -211,7 +211,7 @@ def checkAllCousins(person1, num_cousin, num_removal, person2):
     if person2 not in familytree:
         return False
 
-    if person2 in getAllCousins(person1, num_cousin, num_removal):
+    if person2 in getAllCousins(person1):
         return True
     else:
         return False
