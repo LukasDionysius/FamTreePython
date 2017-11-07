@@ -34,7 +34,7 @@ def checkParents(parent, person):
     p = familytree[person]
     parent_list = p.getparents()
 
-    if p.isae() and parent == person:
+    if p.isFD() and parent == person:
         return True
 
     if parent in parent_list:
@@ -133,7 +133,7 @@ def getAncestors(person):
     ancestor_list = []
     person = familytree[person]
 
-    if person.isae():
+    if person.isFD():
         ancestor_list.append(person.name)
 
     if person.getparents() is None:
@@ -360,7 +360,7 @@ def w(relationship, person):
         plist = list getParents(person))
 
         p = familytree[person]
-        if p.isae():
+        if p.isFD():
             plist.append(person)
         print(list(sorted(set(plist))))
 
