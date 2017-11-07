@@ -183,10 +183,10 @@ def checkAllUnrelated(person1, person2):
         return False
 
 
-def readData(input_line):
-    input_line = input_line.upper()
-    print("\n" + input_line)
-    queryData = input_line.split()
+def readData(data):
+    data = data.upper()
+    print("\n" + data)
+    queryData = data.split()
 
     if queryData[0].lower() == 'e':
         name1 = queryData[1]
