@@ -100,7 +100,7 @@ def addParents(person, parent1, parent2):
 def checkSiblings(person1, person2):
     # checks to see if person 1 and person 2 are full siblings (share the same parents)
     if getParents(person1) != [] and getParents(person1) != []:
-        if set getParents(person1)) == set getParents(person2)):
+        if set(getParents(person1)) == set(getParents(person2)):
             return True
         else:
             return False
@@ -357,7 +357,7 @@ def w(relationship, person):
         print(list(sorted(set(getSpouses(person)))))
 
     elif relationship.lower() == "parent":
-        plist = list getParents(person))
+        plist = list(getParents(person))
 
         p = familytree[person]
         if p.isFD():
