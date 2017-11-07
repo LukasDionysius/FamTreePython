@@ -183,10 +183,10 @@ def checkAllUnrelated(person1, person2):
         return False
 
 
-def readData(data):
-    data = data.upper()
-    print("\n" + data)
-    queryData = data.split()
+def readData(input_line):
+    input_line = input_line.upper()
+    print("\n" + input_line)
+    queryData = input_line.split()
 
     if queryData[0].lower() == 'e':
         name1 = queryData[1]
@@ -234,89 +234,90 @@ def readData(data):
                 addSpouse(name1, name2)
 
     elif queryData[0].lower() == 'x':
+        person1 = queryData[1]
+        relation = queryData[2]
+        person2 = queryData[3]
+
         if len(queryData) == 4:
-            x(queryData[1], queryData[2], queryData[3])
+            if person1 not in familytree:
+                if person1 == person2 or relation.lower() == "unrelated":
+                    print("Yes.")
+                else:
+                    print("No.")
+                return None
+
+            if person2 not in familytree:
+                if person1 == person2 or relation.lower() == "unrelated":
+                    print("Yes.")
+                else:
+                    print("No.")
+                return None
+
+            if relation.lower() == "sibling":
+                print("Yes.") if checkSiblings(person1, person2) else print("No.")
+
+            elif relation.lower() == "spouse":
+                print("Yes.") if checkSpouse(person1, person2) else print("No.")
+
+            elif relation.lower() == "parent":
+                print("Yes.") if checkParents(person1, person2) else print("No.")
+
+            elif relation.lower() == "ancestor":
+                print("Yes.") if checkAncestors(person2, person1) else print("No.")
+
+            elif relation.lower() == "relative":
+                print("Yes.") if checkAllRelatives(person1, person2) else print("No.")
+
+            elif relation.lower() == "unrelated":
+                print("Yes.") if checkAllUnrelated(person1, person2) else print("No")
+
+            elif relation.lower() == "cousin":
+                print("Yes.") if checkAllCousins(person2, person1) else print("No")
+
+            else:
+                print("This is not a valid relationship.")
+
+            return None
 
     elif queryData[0].lower() == 'w':
+        relationship = queryData[1]
+        person = queryData[2]
+
         if len(queryData) == 3:
-            w(queryData[1], queryData[2])
+            if person not in familytree:
+                if relationship.lower() == "unrelated":
+                    print(list(sorted(set(familytree))))
+                else:
+                    print([])
+                return None
 
-def x(person1, relation, person2):
-    if person1 not in familytree:
-        if person1 == person2 or relation.lower() == "unrelated":
-            print("Yes.")
-        else:
-            print("No.")
-        return None
+            if relationship.lower() == "sibling":
+                print(list(sorted(set(getAllSiblings(person)))))
 
-    if person2 not in familytree:
-        if person1 == person2 or relation.lower() == "unrelated":
-            print("Yes.")
-        else:
-            print("No.")
-        return None
+            elif relationship.lower() == "spouse":
+                print(list(sorted(set(getSpouses(person)))))
 
-    if relation.lower() == "sibling":
-        print("Yes.") if checkSiblings(person1, person2) else print("No.")
+            elif relationship.lower() == "parent":
+                plist = list(getParents(person))
 
-    elif relation.lower() == "spouse":
-        print("Yes.") if checkSpouse(person1, person2) else print("No.")
+                p = familytree[person]
+                if p.isFD():
+                    plist.append(person)
+                print(list(sorted(set(plist))))
 
-    elif relation.lower() == "parent":
-        print("Yes.") if checkParents(person1, person2) else print("No.")
+            elif relationship.lower() == "ancestor":
+                print(list(sorted(set(getAncestors(person)))))
 
-    elif relation.lower() == "ancestor":
-        print("Yes.") if checkAncestors(person2, person1) else print("No.")
+            elif relationship.lower() == "relative":
+                print(list(sorted(set(getAllRelatives(person)))))
 
-    elif relation.lower() == "relative":
-        print("Yes.") if checkAllRelatives(person1, person2) else print("No.")
+            elif relationship.lower() == "unrelated":
+                print(list(sorted(set(getAllUnrelated(person)))))
 
-    elif relation.lower() == "unrelated":
-        print("Yes.") if checkAllUnrelated(person1, person2) else print("No")
+            elif relationship.lower() == "cousin":
+                print(list(sorted(set(getAllCousins(person)))))
 
-    elif relation.lower() == "cousin":
-        print("Yes.") if checkAllCousins(person2, person1) else print("No")
-
-    else:
-        print("This is not a valid relationship, BRO")
-
-    return None
-
-def w(relationship, person):
-    if person not in familytree:
-        if relationship.lower() == "unrelated":
-            print(list(sorted(set(familytree))))
-        else:
-            print([])
-        return None
-
-    if relationship.lower() == "sibling":
-        print(list(sorted(set(getAllSiblings(person)))))
-
-    elif relationship.lower() == "spouse":
-        print(list(sorted(set(getSpouses(person)))))
-
-    elif relationship.lower() == "parent":
-        plist = list(getParents(person))
-
-        p = familytree[person]
-        if p.isFD():
-            plist.append(person)
-        print(list(sorted(set(plist))))
-
-    elif relationship.lower() == "ancestor":
-        print(list(sorted(set(getAncestors(person)))))
-
-    elif relationship.lower() == "relative":
-        print(list(sorted(set(getAllRelatives(person)))))
-
-    elif relationship.lower() == "unrelated":
-        print(list(sorted(set(getAllUnrelated(person)))))
-
-    elif relationship.lower() == "cousin":
-        print(list(sorted(set(getAllCousins(person)))))
-
-    else:
-        print("This is not a valid relationship.")
+            else:
+                print("This is not a valid relationship.")
 
 main()
