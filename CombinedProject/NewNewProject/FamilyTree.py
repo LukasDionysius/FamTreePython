@@ -186,12 +186,12 @@ def checkAllUnrelated(person1, person2):
 def readData(input_line):
     input_line = input_line.upper()
     print("\n" + input_line)
-    tokens = input_line.split()
+    queryData = input_line.split()
 
-    if tokens[0].lower() == 'e':
-        name1 = tokens[1]
-        name2 = tokens[2]
-        name3 = tokens[3]
+    if queryData[0].lower() == 'e':
+        name1 = queryData[1]
+        name2 = queryData[2]
+        name3 = queryData[3]
 
         if name1 not in familytree:
             setName(name1)
@@ -233,13 +233,13 @@ def readData(input_line):
             if not checkSpouse(name1, name2):
                 addSpouse(name1, name2)
 
-    elif tokens[0].lower() == 'x':
-        if len(tokens) == 4:
-            x(tokens[1], tokens[2], tokens[3])
+    elif queryData[0].lower() == 'x':
+        if len(queryData) == 4:
+            x(queryData[1], queryData[2], queryData[3])
 
-    elif tokens[0].lower() == 'w':
-        if len(tokens) == 3:
-            w(tokens[1], tokens[2])
+    elif queryData[0].lower() == 'w':
+        if len(queryData) == 3:
+            w(queryData[1], queryData[2])
 
 def x(person1, relation, person2):
     if person1 not in familytree:
