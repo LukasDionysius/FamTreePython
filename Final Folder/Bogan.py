@@ -1,6 +1,4 @@
 #!/usr/bin/python
-
-from Person import *
 import sys
 
 familytree = {}
@@ -11,35 +9,6 @@ def main():
 
 def setName(name):
     familytree[name] = Person(name)
-
-def getParents(name):
-    if name not in familytree:
-        return []
-    person = familytree[name]
-    parentlist = person.getparents()
-    return parentlist
-
-def checkParents(parent, person):
-    p = familytree[person]
-    parent_list = p.getparents()
-    if p.isFD() and parent == person:
-        return True
-    if parent in parent_list:
-        return True
-    else:
-        return False
-
-def getSpouses(name):
-    p = familytree[name]
-    return p.getspouses()
-
-def checkSpouse(spouse, person):
-    p = familytree[person]
-    spouse_list = p.getspouses()
-    if spouse in spouse_list:
-        return True
-    else:
-        return False
 
 def getChildren(name):
     p = familytree[name]
@@ -53,15 +22,44 @@ def checkChildren(child, person):
     else:
         return False
 
+def addParents(person, parent1, parent2):
+    p = familytree[person]
+    p.setparents(parent1, parent2)
+
+def getParents(name):
+    if name not in familytree:
+        return []
+    person = familytree[name]
+    parentlist = person.getparents()
+    return parentlist
+
+def checkParents(parent, person):
+    p = familytree[person]
+    parentList = p.getparents()
+    if p.isFD() and parent == person:
+        return True
+    if parent in parentList:
+        return True
+    else:
+        return False
+
+def getSpouses(name):
+    p = familytree[name]
+    return p.getspouses()
+
+def checkSpouse(spouse, person):
+    p = familytree[person]
+    spouseList = p.getspouses()
+    if spouse in spouseList:
+        return True
+    else:
+        return False
+
 def addSpouse(spouse1, spouse2):
     s1 = familytree[spouse1]
     s2 = familytree[spouse2]
     s1.addspouse(spouse2)
     s2.addspouse(spouse1)
-
-def addParents(person, parent1, parent2):
-    p = familytree[person]
-    p.setparents(parent1, parent2)
 
 def checkSiblings(person1, person2):
     if getParents(person1) != [] and getParents(person1) != []:
@@ -73,38 +71,37 @@ def checkSiblings(person1, person2):
         return False
 
 def getAllSiblings(person):
-    p = familytree[person]
-    parents = p.getparents()
-    all_siblings = []
+    per = familytree[person]
+    parents = per.getparents()
+    siblingsList = []
+    allSiblings = []
 
     for x in parents:
         par = familytree[x]
-        all_siblings = all_siblings + par.getchildren()
+        siblingsList = siblingsList + par.getchildren()
 
-    final_siblings = []
-
-    for x in all_siblings:
+    for x in siblingsList:
         if checkSiblings(x, person):
-            final_siblings.append(x)
+            allSiblings.append(x)
 
-    return list(sorted(set(final_siblings)))
+    return list(sorted(set(allSiblings)))
 
 def getAncestors(person):
-    ancestor_list = []
+    ancestorList = []
     person = familytree[person]
 
     if person.isFD():
-        ancestor_list.append(person.name)
+        ancestorList.append(person.name)
 
     if person.getparents() is None:
-        return list(sorted(set(ancestor_list)))
+        return list(sorted(set(ancestorList)))
 
-    ancestor_list = ancestor_list + person.getparents()
+    ancestorList = ancestorList + person.getparents()
 
     for x in person.getparents():
-        ancestor_list = ancestor_list + getAncestors(x)
+        ancestorList = ancestorList + getAncestors(x)
 
-    return list(sorted(set(ancestor_list)))
+    return list(sorted(set(ancestorList)))
 
 def checkAncestors(person1, person2):
     if person2 in getAncestors(person1):
@@ -112,30 +109,28 @@ def checkAncestors(person1, person2):
     else:
         return False
 
-
 def getAllRelatives(person):
-    relative_list = []
+    relativeList= []
 
     for x in familytree:
         if checkAllRelatives(person, x):
-            relative_list.append(x)
+            relativeList.append(x)
 
-    return list(sorted(set(relative_list)))
-
+    return list(sorted(set(relativeList)))
 
 def checkAllRelatives(person1, person2):
     if person1 not in familytree:
         return False
 
-    p1_ancestors = getAncestors(person1)
-    p2_ancestors = getAncestors(person2)
-    common_ancestors = []
+    ancestors1 = getAncestors(person1)
+    ancestors2 = getAncestors(person2)
+    commonAncestors = []
 
-    for x in p1_ancestors:
-        if x in p2_ancestors:
-            common_ancestors.append(x)
+    for x in ancestors1:
+        if x in ancestors2:
+            commonAncestors.append(x)
 
-    if common_ancestors:
+    if commonAncestors:
         return True
     else:
         return False
@@ -168,13 +163,13 @@ def checkAllCousins(person1, person2):
         return False
 
 def getAllUnrelated(person):
-    unrelated_list = []
+    unrelatedList = []
 
     for x in familytree:
         if checkAllUnrelated(x, person):
-            unrelated_list.append(x)
+            unrelatedList.append(x)
 
-    return list(sorted(set(unrelated_list)))
+    return list(sorted(set(unrelatedList)))
 
 def checkAllUnrelated(person1, person2):
     if person1 not in getAllRelatives(person2):
@@ -209,10 +204,10 @@ def getHalfSiblings(person1):
 
 	return allChildrenList
 
-def readData(input_line):
-    input_line = input_line.upper()
-    print("\n" + input_line)
-    queryData = input_line.split()
+def readData(input):
+    input = input.upper()
+    print("\n" + input)
+    queryData = input.split()
 
     if queryData[0].lower() == 'e':
         name1 = queryData[1]
@@ -372,5 +367,41 @@ def readData(input_line):
 
             else:
                 print("This is not a valid relationship.")
+
+class Person(object):
+    def __init__(self, name):
+        self.name = name
+        self.parents = []
+        self.children = []
+        self.spouses = []
+        self.firstDescendants = True
+
+    def addchild(self, child):
+        if child not in self.children:
+            self.children.append(child)
+
+    def getchildren(self):
+        return self.children
+    
+    def getspouses(self):
+        return self.spouses
+
+    def addspouse(self, spouse):
+        if spouse not in self.spouses:
+            self.spouses.append(spouse)
+
+    def isFD(self):
+        return self.firstDescendants
+
+    def getparents(self):
+        return self.parents
+
+    def setparents(self, parent1, parent2):
+        if parent1 not in self.parents:
+            self.parents.append(parent1)
+            
+        if parent2 not in self.parents:
+            self.parents.append(parent2)
+        self.firstDescendants = False
 
 main()
