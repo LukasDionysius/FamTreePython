@@ -1,5 +1,3 @@
-__author__ = 'Lukas'
-
 class Person(object):
     # Constructor
     def __init__(self, name):
