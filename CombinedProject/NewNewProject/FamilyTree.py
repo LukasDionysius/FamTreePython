@@ -1,7 +1,7 @@
+#!/usr/bin/env python
+
 from Person import *
 import sys
-
-__author__ = 'Lukas'
 
 familytree = {}
 
