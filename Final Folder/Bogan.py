@@ -275,10 +275,10 @@ def readData(input):
                 return None
 
             if relation.lower() == "half-sibling":
-				if checkHalfSiblings(person1, person2):
-					print("Yes.")
-				else:
-					print("No.")
+		if checkHalfSiblings(person1, person2):
+			print("Yes.")
+		else:
+			print("No.")
 
             if relation.lower() == "sibling":
                 if checkSiblings(person1, person2):
