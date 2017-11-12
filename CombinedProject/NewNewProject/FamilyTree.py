@@ -254,25 +254,46 @@ def readData(input_line):
                 return None
 
             if relation.lower() == "sibling":
-                print("Yes.") if checkSiblings(person1, person2) else print("No.")
+                if checkSiblings(person1, person2):
+                	print("Yes.")
+                else:
+                	print("No.")
 
             elif relation.lower() == "spouse":
-                print("Yes.") if checkSpouse(person1, person2) else print("No.")
+                if checkSpouse(person1, person2):
+                	print("Yes.")
+                else:
+                	print("No.")
 
             elif relation.lower() == "parent":
-                print("Yes.") if checkParents(person1, person2) else print("No.")
+                if checkParents(person1, person2):
+                	print("Yes.") 
+                else:
+                	print("No.")
 
             elif relation.lower() == "ancestor":
-                print("Yes.") if checkAncestors(person2, person1) else print("No.")
+                if checkAncestors(person2, person1):
+                	print("Yes.")
+                else:
+                 	print("No.")
 
             elif relation.lower() == "relative":
-                print("Yes.") if checkAllRelatives(person1, person2) else print("No.")
+                if checkAllRelatives(person1, person2):
+                	print("Yes.")
+                else:
+                	print("No.")
 
             elif relation.lower() == "unrelated":
-                print("Yes.") if checkAllUnrelated(person1, person2) else print("No")
+                if checkAllUnrelated(person1, person2):
+                	print("Yes.")
+                else:
+                 	print("No")
 
             elif relation.lower() == "cousin":
-                print("Yes.") if checkAllCousins(person2, person1) else print("No")
+                if checkAllCousins(person2, person1):
+                	print("Yes.")
+                else:
+                	print("No")
 
             else:
                 print("This is not a valid relationship.")
